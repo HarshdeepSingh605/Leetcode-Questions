@@ -1,0 +1,20 @@
+class Solution:
+    def minimumSize(self, nums: List[int], maxOperations: int) -> int:
+
+        low, high = 1, max(nums)
+
+        def check(nums, penalty, maxop):
+            op = 0
+            for num in nums:
+                op += (num - 1) // penalty
+            return op <= maxop
+
+        while low < high:
+            mid = (low + high) // 2
+
+            if check(nums, mid, maxOperations):
+                high = mid
+            else:
+                low = mid + 1
+
+        return low

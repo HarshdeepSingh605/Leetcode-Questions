@@ -1,0 +1,22 @@
+class Solution:
+    def nthMagicalNumber(self, n: int, a: int, b: int) -> int:
+        def gcdfinder(a,b):
+            if b == 0 :
+                return a
+            return gcdfinder(b, a % b)
+        gcd = gcdfinder(a,b)
+        low = min(a,b)
+        high = n * min(a,b)
+        ans = 0
+        lcm = (a// gcd)*b
+        while (low <= high):
+            mid = low + (high - low)//2
+            count = (mid // a) + (mid // b) - (mid//lcm)
+            if count >=n:
+                ans = mid
+                high = mid - 1
+                
+            else:
+                low = mid + 1
+
+        return ans % (10**9 + 7)
