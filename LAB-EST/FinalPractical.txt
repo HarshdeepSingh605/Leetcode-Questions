@@ -1,0 +1,55 @@
+//SquareRoot of Number
+
+class Solution:
+    def floorSqrt(self, n): 
+        if n == 0 or n == 1:
+            return n
+    
+        low, high = 1, n
+        ans = 0
+    
+        while low <= high:
+            mid = (low + high) // 2
+        
+            if mid * mid == n:
+                return mid
+                
+            elif mid * mid < n:
+                ans = mid
+                low = mid + 1
+                
+            else:
+                high = mid - 1
+    
+        return ans
+
+// Number of ways to wear different hats
+
+class Solution:
+    def numberWays(self,hats):
+        MOD = 10**9 + 7
+        n = len(hats)
+    
+        hat_to_people = [[] for _ in range(41)]
+        for person in range(n):
+            for hat in hats[person]:
+                hat_to_people[hat].append(person)
+    
+        dp = [0] * (1 << n)
+        dp[0] = 1 
+    
+        for hat in range(1, 41):
+            new_dp = dp[:]  
+        
+            for mask in range(1 << n):
+                if dp[mask] == 0:
+                    continue
+            
+                for person in hat_to_people[hat]:
+                    if not (mask & (1 << person)):  
+                        new_mask = mask | (1 << person)
+                        new_dp[new_mask] = (new_dp[new_mask] + dp[mask]) % MOD
+        
+            dp = new_dp
+    
+        return dp[(1 << n) - 1]
